@@ -11,7 +11,7 @@ func WriteCookie(c echo.Context) error {
 	name := c.Param("name")
 	cookie := new(http.Cookie)
 	cookie.Name = "username"
-	cookie.Value = "jon"
+	cookie.Value = name
 	cookie.Path = "/"
 	cookie.Expires = time.Now().Add(24 * time.Hour)
 	c.SetCookie(cookie)
@@ -28,7 +28,7 @@ func ReadCookie(c echo.Context) error {
 	}
 	fmt.Println(cookie.Name)
 	fmt.Println(cookie.Value)
-	return c.String(http.StatusOK, "read a cookie:" + cookie.Value)
+	return c.String(http.StatusOK, "read a cookie: " + cookie.Value)
 }
 
 

@@ -4,6 +4,8 @@ import(
   "html/template"
   "io"
 	"os"
+	"net/http"
+	"fmt"
 
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
@@ -18,6 +20,19 @@ type Template struct {
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
   return t.templates.ExecuteTemplate(w, name, data)
 }
+
+func customHTTPErrorHandler(err error, c echo.Context) {
+	code := http.StatusInternalServerError
+	if he, ok := err.(*echo.HTTPError); ok {
+		code = he.Code
+	}
+	errorPage := fmt.Sprintf("public/%d.html", code)
+	if err := c.File(errorPage); err != nil {
+		c.Logger().Error(err)
+	}
+	c.Logger().Error(err)
+}
+
 
 func Init() *echo.Echo {
 	e := echo.New()
@@ -41,6 +56,9 @@ func Init() *echo.Echo {
     templates: template.Must(template.ParseGlob("public/views/*.html")),
   }
   e.Renderer = renderer
+
+	// カスタムエラーハンドリング
+	e.HTTPErrorHandler = customHTTPErrorHandler
 
 
 	// 静的ページのテスト

@@ -13,7 +13,7 @@ func Hello(c echo.Context) error {
       Content: "おはよう",
     }
 
-    return c.Render(http.StatusOK, "hello", data)
+    return c.Render(http.StatusOK, "hello.html", data)
 }
 
 

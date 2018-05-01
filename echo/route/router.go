@@ -75,7 +75,7 @@ func Init() *echo.Echo {
   e.GET("/hello", controller.Hello)
 
 	// 静的ファイルの読み込み
-	e.Static("/css", "css")
+	e.Static("/css", "public/css")
 
 	return e
 }

@@ -76,6 +76,7 @@ func Init() *echo.Echo {
 
 	// 静的ファイルの読み込み
 	e.Static("/css", "public/css")
+	e.Static("/image", "public/images")
 
 	return e
 }

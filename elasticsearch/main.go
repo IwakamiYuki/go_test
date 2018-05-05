@@ -21,6 +21,13 @@ func main(){
 		// Handle error
 	}
 
+	// Create an index
+	_, err = client.CreateIndex("tweets").Do(context.Background())
+	if err != nil {
+		// Handle error
+		panic(err)
+	}
+
 	// Add a document to the index
 	tweet := Tweet{User: "olivere", Message: "Take Five"}
 	_, err = client.Index().
@@ -30,7 +37,6 @@ func main(){
 		BodyJson(tweet).
 		Refresh("wait_for").
 		Do(context.Background())
-
 	if err != nil {
 		// Handle error
 		panic(err)
@@ -45,6 +51,10 @@ func main(){
 		From(0).Size(10).           // take documents 0-9
 		Pretty(true).               // pretty print request and response JSON
 		Do(context.Background())    // execute
+	if err != nil {
+		// Handle error
+		panic(err)
+	}
 
 	// searchResult is of type SearchResult and returns hits, suggestions,
 	// and all kinds of other information from Elasticsearch.
